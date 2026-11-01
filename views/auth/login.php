@@ -57,28 +57,62 @@ $pageTitle = "Connexion Sécurisée";
         .auth-body {
             padding: 28px;
         }
+        .demo-container {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            padding: 14px;
+            margin-bottom: 18px;
+        }
+        [data-theme="dark"] .demo-container {
+            background: #111113;
+            border-color: #27272a;
+        }
+        .demo-separator {
+            padding-top: 10px;
+            margin-top: 8px;
+            border-top: 1px dashed #cbd5e1;
+        }
+        [data-theme="dark"] .demo-separator {
+            border-top-color: #27272a;
+        }
         .demo-pills {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            margin-top: 14px;
-            margin-bottom: 18px;
+            margin-top: 6px;
+            margin-bottom: 8px;
         }
         .demo-pill {
             background: #f1f5f9;
-            border: 1px solid var(--border);
+            border: 1px solid #cbd5e1;
             border-radius: 20px;
-            padding: 4px 10px;
+            padding: 5px 11px;
             font-size: 11px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
-            color: var(--text-main);
+            transition: all 0.2s ease;
+            color: #1e293b;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
         .demo-pill:hover {
-            background: var(--primary-light);
+            background: #2563eb;
             color: #ffffff;
-            border-color: var(--primary-light);
+            border-color: #2563eb;
+            transform: translateY(-1px);
+        }
+        [data-theme="dark"] .demo-pill {
+            background: #1f2227 !important;
+            border-color: #383c44 !important;
+            color: #f1f5f9 !important;
+        }
+        [data-theme="dark"] .demo-pill:hover {
+            background: #2563eb !important;
+            border-color: #3b82f6 !important;
+            color: #ffffff !important;
+            transform: translateY(-1px);
         }
     </style>
 </head>
@@ -110,7 +144,7 @@ $pageTitle = "Connexion Sécurisée";
             <?php endforeach; ?>
 
             <!-- Démonstration rapide : Sélection en 1 clic -->
-            <div style="background: rgba(var(--primary-rgb), 0.06); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; margin-bottom: 18px;">
+            <div class="demo-container">
                 <div style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
                     <span>⚡ Comptes de Démonstration (Cloisonnement Strict) :</span>
                     <span class="badge badge-success" style="font-size: 10px;">Multi-Tenant Isolé</span>
@@ -121,7 +155,7 @@ $pageTitle = "Connexion Sécurisée";
                     <div style="font-size: 11px; font-weight: 700; color: var(--primary-light); margin-bottom: 4px;">
                         🏫 Établissement 1 : Lycée Excellence MBOOLO (Dakar)
                     </div>
-                    <div class="demo-pills" style="margin-top: 4px; margin-bottom: 6px;">
+                    <div class="demo-pills">
                         <button type="button" class="demo-pill" onclick="fillDemo(1, 'directeur@mboolo.sn', 'pass123', 'directeur')" title="Directeur Cheikh Anta DIOP">👔 Dir. Diop</button>
                         <button type="button" class="demo-pill" onclick="fillDemo(1, 'surveillant@mboolo.sn', 'pass123', 'surveillant')" title="Surveillant Mansour NDIAYE">⏱️ Surveillant</button>
                         <button type="button" class="demo-pill" onclick="fillDemo(1, 'prof.maths@mboolo.sn', 'pass123', 'professeur')" title="Professeur Ousmane SOW">👨‍🏫 Prof. Maths</button>
@@ -132,11 +166,11 @@ $pageTitle = "Connexion Sécurisée";
                 </div>
 
                 <!-- Établissement 2 : Collège & Lycée TÉRANGA Saint-Louis -->
-                <div style="padding-top: 8px; border-top: 1px dashed var(--border);">
+                <div class="demo-separator">
                     <div style="font-size: 11px; font-weight: 700; color: #10b981; margin-bottom: 4px;">
                         🏫 Établissement 2 : Collège & Lycée TÉRANGA (Saint-Louis)
                     </div>
-                    <div class="demo-pills" style="margin-top: 4px; margin-bottom: 2px;">
+                    <div class="demo-pills">
                         <button type="button" class="demo-pill" onclick="fillDemo(2, 'directeur@teranga.sn', 'pass123', 'directeur')" title="Directeur Amadou KANE (Indépendant)">👔 Dir. Kane (Indépendant)</button>
                         <button type="button" class="demo-pill" onclick="fillDemo(2, 'surveillant@teranga.sn', 'pass123', 'surveillant')" title="Surveillant Pape FALL">⏱️ Surveillant</button>
                         <button type="button" class="demo-pill" onclick="fillDemo(2, 'prof.svt@teranga.sn', 'pass123', 'professeur')" title="Professeur Khady DIOUF">👩‍🏫 Prof. SVT</button>
