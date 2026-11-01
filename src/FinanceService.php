@@ -143,6 +143,10 @@ class FinanceService {
 
             Audit::log($schoolId, Auth::id() ?: $studentId, 'PAIEMENT_EN_LIGNE_CONFIRME', 'student_payments', $paymentId, "Paiement en ligne validé : {$amount} FCFA par {$method} (Réf: {$txRef})");
 
+            // Notification automatique au parent pour la quittance
+            require_once __DIR__ . '/NotificationService.php';
+            NotificationService::notifyPaymentReceived($schoolId, $studentId, $amount, $method, $receiptNum);
+
             return [
                 'success' => true,
                 'transaction_ref' => $txRef,
@@ -194,6 +198,10 @@ class FinanceService {
             $id = $pdo->lastInsertId();
 
             Audit::log($schoolId, $secretaryId, 'PAIEMENT_GUICHET_ENREGISTRE', 'student_payments', $id, "Enregistrement manuel de paiement : " . formatMoney($amountPaid) . " (Reçu: {$receiptNumber})");
+
+            // Notification automatique au parent pour le reçu de caisse
+            require_once __DIR__ . '/NotificationService.php';
+            NotificationService::notifyPaymentReceived($schoolId, $studentId, $amountPaid, $method, $receiptNumber);
 
             return ['success' => true, 'receipt_number' => $receiptNumber, 'message' => "Le paiement a été enregistré avec succès au guichet."];
         } catch (Exception $e) {

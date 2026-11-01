@@ -114,6 +114,7 @@ require_once __DIR__ . '/../../templates/header.php';
                             <th>Matricule & Classe</th>
                             <th>Créneau / Heure</th>
                             <th>Statut</th>
+                            <th>Alerte Parent</th>
                             <th>Justification</th>
                             <th>Enregistré par</th>
                             <th>Action</th>
@@ -139,6 +140,12 @@ require_once __DIR__ . '/../../templates/header.php';
                                     <?php else: ?>
                                         <span class="badge badge-danger">❌ Absent</span>
                                     <?php endif; ?>
+                                </td>
+                                <td>
+                                    <div style="display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 3px 8px; border-radius: 9999px; background: rgba(37, 211, 102, 0.12); color: #25d366; font-weight: 600; border: 1px solid rgba(37, 211, 102, 0.3);">
+                                        <span>📲 Alerte Envoyée</span>
+                                    </div>
+                                    <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">SMS • WhatsApp • App</div>
                                 </td>
                                 <td>
                                     <?php if ($a['is_justified']): ?>
@@ -214,6 +221,32 @@ require_once __DIR__ . '/../../templates/header.php';
                 <div class="form-group">
                     <label class="form-label" for="time_slot">Créneau Horaire ou Matière concernée</label>
                     <input type="text" name="time_slot" id="time_slot" class="form-control" placeholder="ex: 08:00 - 10:00 (Mathématiques) ou Journée entière" value="Matinée (08:00 - 12:00)">
+                </div>
+
+                <!-- Notifications aux Parents -->
+                <div style="background: rgba(var(--primary-rgb), 0.08); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 16px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--primary-light); display: flex; align-items: center; gap: 6px;">
+                            <span>🔔 Notification immédiate des Parents</span>
+                        </span>
+                        <span class="badge badge-success" style="font-size: 10px;">Automatique</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; font-weight: 500;">
+                            <input type="checkbox" name="notify_parent" value="1" checked>
+                            <span>📲 Notification In-App & Email tuteur légal</span>
+                        </label>
+                        <div style="display: flex; gap: 16px; margin-left: 24px;">
+                            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px;">
+                                <input type="checkbox" name="notify_sms" value="1" checked>
+                                <span>💬 Alerte SMS (+221)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px;">
+                                <input type="checkbox" name="notify_whatsapp" value="1" checked>
+                                <span>🟢 Message WhatsApp</span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">

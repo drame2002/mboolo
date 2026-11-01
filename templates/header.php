@@ -77,6 +77,24 @@ $savedTheme = $_COOKIE['mboolo_theme'] ?? 'light';
             </div>
 
             <div class="topbar-right">
+                <?php
+                // Notifications non lues
+                $headerUnreadCount = 0;
+                if (Auth::check()) {
+                    require_once __DIR__ . '/../src/NotificationService.php';
+                    $headerUnreadCount = NotificationService::getUnreadCount(Auth::schoolId(), Auth::id());
+                }
+                $notifUrl = ($currentUser['role'] === 'parent') ? baseUrl('index.php?page=parent_notifications') : '#';
+                ?>
+                <a href="<?= $notifUrl ?>" class="theme-toggle-btn" title="Notifications & Alertes" style="position: relative; text-decoration: none;">
+                    <span style="font-size: 16px;">🔔</span>
+                    <?php if ($headerUnreadCount > 0): ?>
+                        <span style="position: absolute; top: -3px; right: -3px; background: #ef4444; color: #fff; font-size: 10px; font-weight: 700; min-width: 17px; height: 17px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; padding: 0 4px; box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);">
+                            <?= $headerUnreadCount > 9 ? '9+' : $headerUnreadCount ?>
+                        </span>
+                    <?php endif; ?>
+                </a>
+
                 <!-- Sélecteur de Thème compact (Lumineux / Sombre) -->
                 <button id="theme-toggle-btn" class="theme-toggle-btn" type="button" title="Changer de thème (Clair / Sombre)">
                     <span class="theme-icon">🌙</span>

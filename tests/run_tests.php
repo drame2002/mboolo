@@ -450,12 +450,78 @@ if ($evalElemRes['success'] ?? false) {
     assertTest(strpos($bulletinElem['principal_appreciation'], 'Conseil des Maîtres') !== false, "Appréciation officielle du bulletin élémentaire attribuée par le 'Conseil des Maîtres'");
 }
 
+// -----------------------------------------------------------------------------
+// 13. NOTIFICATIONS AUX PARENTS (SMS / WHATSAPP / EMAIL / IN-APP)
+// -----------------------------------------------------------------------------
+echo "\n13. SYSTÈME DE NOTIFICATIONS AUX PARENTS (SMS, WhatsApp, In-App & Email) :\n";
+require_once __DIR__ . '/../src/NotificationService.php';
+
+// Récupérer un élève et son parent rattaché
+$parentChildRow = $pdo->query("
+    SELECT ps.parent_id, ps.student_id, u.first_name, u.last_name, u.phone as student_phone,
+           up.first_name as parent_first, up.last_name as parent_last, up.phone as parent_phone
+    FROM parent_students ps
+    JOIN users u ON ps.student_id = u.id
+    JOIN users up ON ps.parent_id = up.id
+    WHERE ps.school_id = 1
+    LIMIT 1
+")->fetch(PDO::FETCH_ASSOC);
+
+$testParentId = (int)$parentChildRow['parent_id'];
+$testStudentId = (int)$parentChildRow['student_id'];
+
+// 13.1 Notification d'Assiduité (Absence ou Retard) avec SMS et WhatsApp
+$attNotifRes = NotificationService::notifyAttendance(
+    1, 
+    $testStudentId, 
+    'absent', 
+    date('Y-m-d'), 
+    '08:00 - 10:00', 
+    'Non justifié au cours de Français', 
+    true, 
+    true
+);
+assertTest($attNotifRes['success'] === true && $attNotifRes['sent_count'] >= 2, "Alerte automatique générée et envoyée aux parents sur plusieurs canaux (In-App, SMS, WhatsApp)");
+assertTest(in_array('sms', $attNotifRes['channels']) && in_array('whatsapp', $attNotifRes['channels']), "Canaux prioritaires SMS et WhatsApp correctement ciblés et activés");
+
+// 13.2 Notification lors de la parution d'un Bulletin Scolaire
+$cardNotifRes = NotificationService::notifyReportCard(
+    1, 
+    $testStudentId, 
+    'Semestre 1', 
+    16.85, 
+    '1er'
+);
+assertTest($cardNotifRes['success'] === true && $cardNotifRes['sent_count'] > 0, "Alerte de publication de bulletin scolaire transmise au tuteur légal");
+
+// 13.3 Notification lors d'un Paiement de Mensualité / Scolarité
+$payNotifRes = NotificationService::notifyPaymentReceived(
+    1, 
+    $testStudentId, 
+    35000.00, 
+    'Wave', 
+    'REC-NOTIF-TEST-001'
+);
+assertTest($payNotifRes['success'] === true && $payNotifRes['sent_count'] > 0, "Confirmation instantanée de paiement (Wave/Reçu) notifiée au parent d'élève");
+
+// 13.4 Consultation et gestion du Centre de Notifications du Parent
+$parentNotifs = NotificationService::getUserNotifications(1, $testParentId, 50, false);
+assertTest(!empty($parentNotifs), "Le parent consulte son historique de notifications et alertes dans son espace dédié");
+
+$unreadNotifCount = NotificationService::getUnreadCount(1, $testParentId);
+assertTest($unreadNotifCount > 0, "Le compteur dynamique de notifications non lues reflète les nouvelles alertes ({$unreadNotifCount} non lues)");
+
+// 13.5 Marquer comme lu
+$firstNotifId = (int)$parentNotifs[0]['id'];
+$markRes = NotificationService::markAsRead(1, $testParentId, $firstNotifId);
+assertTest($markRes === true, "La notification peut être marquée comme consultée/lue par le parent");
+
 echo "\n======================================================================\n";
 echo "   RÉSULTATS DES TESTS : {$passed} SUCCÈS, {$failed} ÉCHECS\n";
 echo "======================================================================\n\n";
 
 if ($failed === 0) {
-    echo ">>> TOUTES LES 12 SPÉCIFICATIONS DU PROJET MBOOLO (DONT ÉLÉMENTAIRE, COLLÈGE, LYCÉE S,L,G,T & SURVEILLANT) SONT VALIDÉES À 100% ! <<<\n\n";
+    echo ">>> TOUTES LES 13 SPÉCIFICATIONS DU PROJET MBOOLO (DONT NOTIFICATIONS PARENTS SMS/WHATSAPP & SURVEILLANT) SONT VALIDÉES À 100% ! <<<\n\n";
     exit(0);
 } else {
     echo ">>> DES TESTS ONT ÉCHOUÉ <<<\n\n";

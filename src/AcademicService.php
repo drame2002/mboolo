@@ -605,6 +605,10 @@ class AcademicService {
 
             Audit::log($schoolId, Auth::id() ?: $studentId, 'BULLETIN_GENERE', 'report_cards', $reportCardId, "Génération automatique du bulletin ({$semester}) pour l'élève {$student['first_name']} {$student['last_name']}");
 
+            // Alerte automatique du parent pour le nouveau bulletin disponible
+            require_once __DIR__ . '/NotificationService.php';
+            NotificationService::notifyReportCard($schoolId, $studentId, $semester, (float)$generalAvg, '1er');
+
             return ['success' => true, 'report_card_id' => $reportCardId, 'message' => "Le bulletin scolaire semestriel a été généré et validé avec succès."];
         } catch (Exception $e) {
             $pdo->rollBack();

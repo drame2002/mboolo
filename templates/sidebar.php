@@ -183,6 +183,19 @@ $schoolLogo = !empty($currentSchool['logo_path']) ? baseUrl($currentSchool['logo
             </a>
 
         <?php elseif ($role === 'parent'): ?>
+            <div class="nav-section-title">Alertes & Notifications</div>
+            <a href="<?= baseUrl('index.php?page=parent_notifications') ?>" class="nav-item <?= $page === 'parent_notifications' ? 'active' : '' ?>">
+                <span class="icon">🔔</span>
+                <span>Notifications & Alertes</span>
+                <?php
+                require_once __DIR__ . '/../src/NotificationService.php';
+                $parentUnreadNotifs = NotificationService::getUnreadCount(Auth::schoolId(), Auth::id());
+                if ($parentUnreadNotifs > 0):
+                ?>
+                    <span class="badge badge-danger" style="margin-left: auto; font-size: 11px; padding: 2px 7px;"><?= $parentUnreadNotifs ?></span>
+                <?php endif; ?>
+            </a>
+
             <div class="nav-section-title">Mes Enfants & Scolarité</div>
             <a href="<?= baseUrl('index.php?page=parent_children') ?>" class="nav-item <?= $page === 'parent_children' ? 'active' : '' ?>">
                 <span class="icon">👨‍👩‍👧‍👦</span>

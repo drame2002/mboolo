@@ -124,7 +124,30 @@ class SupervisorService {
             $statusLabel = ($status === 'retard') ? 'Retard' : 'Absence';
             Audit::log($schoolId, $recorderId, 'ENREGISTREMENT_ASSIDUITE', 'attendances', $attendanceId, "{$statusLabel} signalée pour l'élève {$student['first_name']} {$student['last_name']} le {$date}");
 
-            return ['success' => true, 'message' => "Le pointage d'assiduité a été enregistré avec succès."];
+            // Alerte automatique par Notification aux parents (SMS / WhatsApp / In-App)
+            $sendSms = !empty($data['notify_sms']);
+            $sendWhatsapp = !empty($data['notify_whatsapp']);
+            $notifyParent = !isset($data['notify_parent']) || !empty($data['notify_parent']);
+
+            $notifMsg = "";
+            if ($notifyParent) {
+                require_once __DIR__ . '/NotificationService.php';
+                $notifRes = NotificationService::notifyAttendance(
+                    $schoolId, 
+                    $studentId, 
+                    $status, 
+                    $date, 
+                    $timeSlot, 
+                    $reason, 
+                    $sendSms, 
+                    $sendWhatsapp
+                );
+                if (!empty($notifRes['sent_count'])) {
+                    $notifMsg = " et les parents ont été alertés (" . implode(', ', $notifRes['channels']) . ")";
+                }
+            }
+
+            return ['success' => true, 'message' => "Le pointage d'assiduité a été enregistré avec succès{$notifMsg}."];
         } catch (Exception $e) {
             return ['success' => false, 'message' => "Erreur : " . $e->getMessage()];
         }

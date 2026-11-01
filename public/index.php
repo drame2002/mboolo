@@ -231,6 +231,22 @@ if ($action) {
             header("Location: " . baseUrl('index.php?page=surveillant_discipline'));
             exit;
 
+        case 'mark_notification_read':
+            Auth::requireAuth();
+            require_once __DIR__ . '/../src/NotificationService.php';
+            $notifId = (int)($_POST['notification_id'] ?? 0);
+            NotificationService::markAsRead(Auth::schoolId(), Auth::id(), $notifId);
+            header("Location: " . ($_SERVER['HTTP_REFERER'] ?? baseUrl('index.php?page=parent_notifications')));
+            exit;
+
+        case 'mark_all_notifications_read':
+            Auth::requireAuth();
+            require_once __DIR__ . '/../src/NotificationService.php';
+            NotificationService::markAllAsRead(Auth::schoolId(), Auth::id());
+            setFlash('success', 'Toutes vos notifications ont été marquées comme lues.');
+            header("Location: " . baseUrl('index.php?page=parent_notifications'));
+            exit;
+
         default:
             header("Location: " . baseUrl('index.php'));
             exit;
@@ -323,6 +339,7 @@ $viewMap = [
     'parent_student_grades'   => __DIR__ . '/../views/parent/student_grades.php',
     'parent_student_bulletin' => __DIR__ . '/../views/parent/student_bulletin.php',
     'parent_tuition'          => __DIR__ . '/../views/parent/tuition.php',
+    'parent_notifications'    => __DIR__ . '/../views/parent/notifications.php',
 
     // Surveillant Général / Vie Scolaire
     'surveillant_timetable'   => __DIR__ . '/../views/surveillant/timetable_manage.php',
