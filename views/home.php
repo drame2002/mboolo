@@ -631,23 +631,69 @@ $pageTitle = "Bienvenue sur MBOOLO — Plateforme Scolaire Intégrée";
         </div>
     </section>
 
-    <!-- Pied de Page Sombre Élégant (Spécification : sombre, pas tout noir mais sombre) -->
+    <!-- Pied de Page Sombre et Large Élégant -->
     <footer class="site-footer">
-        <div class="footer-school-brand">
-            <img src="<?= baseUrl('assets/img/logos/mboolo_logo.png') ?>" alt="Logo MBOOLO" class="footer-school-logo">
+        <div class="footer-content-grid">
+            <!-- Colonne 1 : Plateforme & Marque -->
+            <div class="footer-school-brand">
+                <img src="<?= baseUrl('assets/img/logos/mboolo_logo.png') ?>" alt="Logo MBOOLO" class="footer-school-logo">
+                <div>
+                    <div class="footer-school-name">MBOOLO — Plateforme Scolaire Intégrée</div>
+                    <div class="footer-school-slogan">« L'Excellence et la Proximité au Service de l'Éducation »</div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px;">
+                        <span class="badge badge-success" style="font-size: 11px;">Plateforme Nationale SaaS</span>
+                        <span class="badge badge-secondary" style="font-size: 11px;">Multi-Établissements</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colonne 2 : Siège & Assistance Technique -->
             <div>
-                <div class="footer-school-name">MBOOLO — Plateforme Scolaire Intégrée</div>
+                <div class="footer-section-title">Support & Contact</div>
                 <div class="footer-school-coords">
-                    📍 Siège : Dakar, Sénégal &nbsp;|&nbsp; 
-                    📞 Assistance : +221 33 800 00 00 &nbsp;|&nbsp; 
-                    ✉️ Support : contact@mboolo.sn
+                    <div>
+                        <span>📍</span>
+                        <span>Siège : Dakar, Sénégal</span>
+                    </div>
+                    <div>
+                        <span>📞</span>
+                        <span>Support Dédié : +221 33 800 00 00 (7j/7)</span>
+                    </div>
+                    <div>
+                        <span>✉️</span>
+                        <span>Assistance : contact@mboolo.sn</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colonne 3 : Modules & Cycles Couverts -->
+            <div>
+                <div class="footer-section-title">Modules Intégrés</div>
+                <p style="font-size: 12.5px; color: var(--footer-muted); line-height: 1.6; margin-bottom: 10px;">
+                    Élémentaire (CI-CM2), Collège (6e-3e), Lycée (Séries S, L, G, T).
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--footer-muted);">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="color: #10b981; font-weight: bold;">✓</span> Emplois du temps & Assiduité en temps réel
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="color: #10b981; font-weight: bold;">✓</span> Alertes Parents (SMS & WhatsApp)
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="color: #10b981; font-weight: bold;">✓</span> Reçus de paiement Wave certifiés
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div style="text-align: right; font-size: 12px; line-height: 1.5;">
-            <div><span class="footer-brand-tag">MBOOLO</span> &copy; <?= date('Y') ?> — Système Global de Gestion Scolaire Multi-Tenant</div>
-            <div style="color: var(--footer-muted);">Direction &bullet; Professeurs &bullet; Élèves &bullet; Parents &bullet; Secrétariat</div>
+        <!-- Barre inférieure Copyright -->
+        <div class="footer-bottom-bar">
+            <div>
+                <span class="footer-brand-tag">MBOOLO</span> &copy; <?= date('Y') ?> — Système Global de Gestion Scolaire Multi-Tenant. Tous droits réservés.
+            </div>
+            <div>
+                <span>Direction &bullet; Professeurs &bullet; Surveillants &bullet; Secrétaires &bullet; Parents &bullet; Élèves</span>
+            </div>
         </div>
     </footer>
 
