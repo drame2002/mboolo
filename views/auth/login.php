@@ -110,17 +110,39 @@ $pageTitle = "Connexion Sécurisée";
             <?php endforeach; ?>
 
             <!-- Démonstration rapide : Sélection en 1 clic -->
-            <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-md); padding: 12px; margin-bottom: 18px;">
-                <div style="font-size: 12px; font-weight: 700; color: #1e40af; margin-bottom: 6px;">
-                    ⚡ Connexion Rapide Démo (Cliquez pour tester un rôle) :
+            <div style="background: rgba(var(--primary-rgb), 0.06); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; margin-bottom: 18px;">
+                <div style="font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+                    <span>⚡ Comptes de Démonstration (Cloisonnement Strict) :</span>
+                    <span class="badge badge-success" style="font-size: 10px;">Multi-Tenant Isolé</span>
                 </div>
-                <div class="demo-pills">
-                    <button type="button" class="demo-pill" onclick="fillDemo(1, 'directeur@mboolo.sn', 'pass123', 'directeur')">👔 Directeur</button>
-                    <button type="button" class="demo-pill" onclick="fillDemo(1, 'surveillant@mboolo.sn', 'pass123', 'surveillant')">⏱️ Surveillant</button>
-                    <button type="button" class="demo-pill" onclick="fillDemo(1, 'prof.maths@mboolo.sn', 'pass123', 'professeur')">👨‍🏫 Professeur</button>
-                    <button type="button" class="demo-pill" onclick="fillDemo(1, 'secretaire@mboolo.sn', 'pass123', 'secretaire')">💼 Secrétaire</button>
-                    <button type="button" class="demo-pill" onclick="fillDemo(1, 'fatou.diop@mboolo.sn', 'pass123', 'eleve')">🎓 Élève</button>
-                    <button type="button" class="demo-pill" onclick="fillDemo(1, 'parent.diop@mboolo.sn', 'pass123', 'parent')">👨‍👩‍👧 Parent</button>
+
+                <!-- Établissement 1 : Lycée Excellence MBOOLO Dakar -->
+                <div style="margin-bottom: 10px;">
+                    <div style="font-size: 11px; font-weight: 700; color: var(--primary-light); margin-bottom: 4px;">
+                        🏫 Établissement 1 : Lycée Excellence MBOOLO (Dakar)
+                    </div>
+                    <div class="demo-pills" style="margin-top: 4px; margin-bottom: 6px;">
+                        <button type="button" class="demo-pill" onclick="fillDemo(1, 'directeur@mboolo.sn', 'pass123', 'directeur')" title="Directeur Cheikh Anta DIOP">👔 Dir. Diop</button>
+                        <button type="button" class="demo-pill" onclick="fillDemo(1, 'surveillant@mboolo.sn', 'pass123', 'surveillant')" title="Surveillant Mansour NDIAYE">⏱️ Surveillant</button>
+                        <button type="button" class="demo-pill" onclick="fillDemo(1, 'prof.maths@mboolo.sn', 'pass123', 'professeur')" title="Professeur Ousmane SOW">👨‍🏫 Prof. Maths</button>
+                        <button type="button" class="demo-pill" onclick="fillDemo(1, 'secretaire@mboolo.sn', 'pass123', 'secretaire')" title="Secrétaire Aïssatou BA">💼 Secrétaire</button>
+                        <button type="button" class="demo-pill" onclick="fillDemo(1, 'fatou.diop@mboolo.sn', 'pass123', 'eleve')" title="Élève Fatou DIOP">🎓 Élève</button>
+                        <button type="button" class="demo-pill" onclick="fillDemo(1, 'parent.diop@mboolo.sn', 'pass123', 'parent')" title="Parent Ibrahima DIOP">👨‍👩‍👧 Parent</button>
+                    </div>
+                </div>
+
+                <!-- Établissement 2 : Collège & Lycée TÉRANGA Saint-Louis -->
+                <div style="padding-top: 8px; border-top: 1px dashed var(--border);">
+                    <div style="font-size: 11px; font-weight: 700; color: #10b981; margin-bottom: 4px;">
+                        🏫 Établissement 2 : Collège & Lycée TÉRANGA (Saint-Louis)
+                    </div>
+                    <div class="demo-pills" style="margin-top: 4px; margin-bottom: 2px;">
+                        <button type="button" class="demo-pill" onclick="fillDemo(2, 'directeur@teranga.sn', 'pass123', 'directeur')" title="Directeur Amadou KANE (Indépendant)">👔 Dir. Kane (Indépendant)</button>
+                        <button type="button" class="demo-pill" onclick="fillDemo(2, 'surveillant@teranga.sn', 'pass123', 'surveillant')" title="Surveillant Pape FALL">⏱️ Surveillant</button>
+                        <button type="button" class="demo-pill" onclick="fillDemo(2, 'prof.svt@teranga.sn', 'pass123', 'professeur')" title="Professeur Khady DIOUF">👩‍🏫 Prof. SVT</button>
+                        <button type="button" class="demo-pill" onclick="fillDemo(2, 'ibrahima.sall@teranga.sn', 'pass123', 'eleve')" title="Élève Ibrahima SALL">🎓 Élève</button>
+                        <button type="button" class="demo-pill" onclick="fillDemo(2, 'parent.sall@teranga.sn', 'pass123', 'parent')" title="Parent Abdoulaye SALL">👨‍👩‍👦 Parent</button>
+                    </div>
                 </div>
             </div>
 

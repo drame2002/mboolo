@@ -126,7 +126,14 @@ class SchoolService {
                 $_SESSION['mboolo_school'] = self::getSchoolById($schoolId);
             }
 
-            Audit::log($schoolId, Auth::id() ?: 1, 'UPDATE_SCHOOL_SETTINGS', 'schools', $schoolId, "Mise à jour des coordonnées et de l'identité visuelle");
+            $actorId = Auth::id();
+            if (!$actorId) {
+                $stmtDir = $pdo->prepare("SELECT id FROM `users` WHERE `school_id` = ? AND `role` = 'directeur' AND `is_active` = 1 LIMIT 1");
+                $stmtDir->execute([$schoolId]);
+                $actorId = (int)$stmtDir->fetchColumn() ?: 0;
+            }
+
+            Audit::log($schoolId, $actorId, 'UPDATE_SCHOOL_SETTINGS', 'schools', $schoolId, "Mise à jour des coordonnées et de l'identité visuelle");
 
             return ['success' => true, 'message' => "Les informations et l'identité visuelle de l'établissement ont été mises à jour avec succès."];
 

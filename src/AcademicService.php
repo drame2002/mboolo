@@ -583,10 +583,15 @@ class AcademicService {
 
             foreach ($overview['subjects'] as $sub) {
                 if ($sub['student_average'] !== null) {
-                    // Trouver le prof assigné
+                    // Trouver le prof assigné pour cet établissement
                     $stmtTeacher = $pdo->prepare("SELECT teacher_id FROM `class_subjects` WHERE `class_id` = ? AND `subject_id` = ? LIMIT 1");
                     $stmtTeacher->execute([$classId, $sub['subject_id']]);
                     $teacherId = (int)$stmtTeacher->fetchColumn();
+                    if ($teacherId <= 0) {
+                        $stmtFb = $pdo->prepare("SELECT id FROM `users` WHERE `school_id` = ? AND `role` = 'professeur' AND `is_active` = 1 LIMIT 1");
+                        $stmtFb->execute([$schoolId]);
+                        $teacherId = (int)$stmtFb->fetchColumn();
+                    }
 
                     $weighted = round($sub['student_average'] * $sub['coefficient'], 2);
                     $appr = "Travail régulier et sérieux.";
@@ -594,7 +599,7 @@ class AcademicService {
                     elseif ($sub['student_average'] < 10) $appr = "Résultats faibles, réviser les notions fondamentales.";
 
                     $stmtDetail->execute([
-                        $reportCardId, $sub['subject_id'], $teacherId ?: 1,
+                        $reportCardId, $sub['subject_id'], $teacherId ?: null,
                         $sub['student_average'], $sub['coefficient'], $weighted,
                         $sub['class_avg'] ?? 12.00, $appr
                     ]);

@@ -99,9 +99,16 @@ class NotificationService {
 
         // Audit de traçabilité
         if ($sentCount > 0) {
+            $actorId = Auth::id();
+            if (!$actorId) {
+                $stmtDir = $pdo->prepare("SELECT id FROM `users` WHERE `school_id` = ? AND `role` = 'directeur' AND `is_active` = 1 LIMIT 1");
+                $stmtDir->execute([$schoolId]);
+                $actorId = (int)$stmtDir->fetchColumn() ?: $studentId;
+            }
+
             Audit::log(
                 $schoolId, 
-                Auth::id() ?: 1, 
+                $actorId, 
                 'NOTIFICATION_PARENT_ENVOYEE', 
                 'notifications', 
                 $studentId, 
